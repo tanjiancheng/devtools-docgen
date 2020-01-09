@@ -66,7 +66,7 @@ class Parser
                 }
 
                 if ($this->isApiCommentEnd($line)) {
-                    if ($apiObj->getTitle()) {
+                    if ($apiObj->getTitle() && $this->isApiCommentBegin($line)) {
                         $apis[] = $apiObj;
                     }
                     $apiObj = new Api();
