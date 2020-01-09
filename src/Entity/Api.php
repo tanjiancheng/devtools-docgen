@@ -118,8 +118,11 @@ class Api
      * @param array $params
      * @return Api
      */
-    public function setParams(array $params): Api
+    public function setParams($params): Api
     {
+        if (!is_array($params)) {
+            $params = [];
+        }
         $this->params = $params;
         return $this;
     }
@@ -136,8 +139,11 @@ class Api
      * @param mixed $result
      * @return Api
      */
-    public function setResult($result)
+    public function setResult($result): Api
     {
+        if (!is_array($result)) {
+            $result = [];
+        }
         $this->result = $result;
         return $this;
     }
