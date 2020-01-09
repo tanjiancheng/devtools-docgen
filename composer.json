@@ -1,0 +1,36 @@
+{
+    "name": "devtools/docgen",
+    "description": "文档生成工具",
+    "type": "l",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "tanjiancheng",
+            "email": "tanjianchengcc@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "php": ">=7.2",
+        "symfony/yaml": "^5.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.0.0"
+    },
+    "autoload": {
+        "classmap": [
+            "src/"
+        ],
+        "psr-4": {
+            "Devtools\\Docgen\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "classmap": [
+            "tests/"
+        ],
+        "psr-4": {
+            "DevtoolsTest\\Docgen\\": "tests/"
+        }
+    }
+}
