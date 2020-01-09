@@ -20,10 +20,13 @@ $scaner->setSuffixs([
 $parser = new Parser($scaner);
 $apis = $parser->getApis();
 $outer = new Outer($apis);
-$outer->toMarkDown([
+$ret = $outer->toMarkDown([
     //'stream' => 'php://stdout',
     'stream' => __DIR__. '/Doc/api.md',
 ]);
+if ($ret) {
+    echo "文档生成成功！请查看" . $docFileName . PHP_EOL;
+}
 ```
 
 > 详细例子可以查看example目录
