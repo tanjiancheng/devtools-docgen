@@ -20,10 +20,13 @@ $scaner->setSuffixs([
 $parser = new Parser($scaner);
 $apis = $parser->getApis();
 $outer = new Outer($apis);
+
+//生成markdown格式文档
 $ret = $outer->toMarkDown([
-    //'stream' => 'php://stdout',
-    'stream' => __DIR__. '/Doc/api.md',
+    //'stream' => 'php://stdout',           //输出到控制台
+    'stream' => __DIR__. '/Doc/api.md',     //输出到指定文件
 ]);
+
 if ($ret) {
     echo "文档生成成功！请查看" . $docFileName . PHP_EOL;
 }
