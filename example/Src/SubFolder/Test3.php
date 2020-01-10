@@ -3,37 +3,56 @@
 Class Test3
 {
     /**
-     * 匹配玩家
+     * 发送聊天消息
      *
      * <pre>
      * group: send
-     * method: game/match_player
+     * method: game/send_chat_msg
      * params:
+     *   - name: chat_msg
+     *     required: true
+     *     param_type: string
+     *     desc: 聊天消息
+     *   - name: chat_sn
+     *     required: true
+     *     param_type: string
+     *     desc: 消息唯一ID
      * errors:
-     *     40003: 您有一场进行中的聊天房间
+     *   40000: 参数缺失
+     *   40004: 操作失败！未找到进行中的聊天房间
      * result:
      *   code: 操作码
      *   message: 操作说明
      *   data{}: 返回数据
+     *   data{}.send_player_id: 发送消息玩家ID
+     *   data{}.chat_msg: 聊天消息
+     *   data{}.chat_sn: 消息唯一ID
      * remark_before_md: |
      * remark_after_md: |
      * example_request: |
-     *  {
-     *      "id": "XQPieFsDzettF6HzH8mE682fZMT7336w",
+     *   {
+     *      "id": "yHs6ndAXiyi6spTSKPRXX26dSeTRa4xx",
      *      "jsonrpc": "2.0",
-     *      "method": 'game/match_player',
-     *      'params': []
-     *  }
+     *      "method": "game/send_chat_msg",
+     *      "params": {
+     *          "chat_msg": "123",
+     *          "chat_sn": "Dhy84razsSeh7WPSiAdW7EsZ76fyt267"
+     *     }
+     *   }
      * example_response: |
-     *  {
+     *   {
      *      "jsonrpc": "2.0",
      *      "result": {
-     *          "code": 20000,
-     *          "message": "success",
-     *          "data": []
-     *      },
-     *      "id": "XQPieFsDzettF6HzH8mE682fZMT7336w"
-     *  }
+     *          "code": 20002,
+     *          "message": "聊天数据",
+     *          "data": {
+     *              "send_player_id": "rPBDTm5PKh",
+     *              "chat_msg": "123",
+     *              "chat_sn": "Dhy84razsSeh7WPSiAdW7EsZ76fyt267"
+     *         }
+     *     },
+     *     "id": "29ad53a591c26c8a0e698208118b6ea6"
+     *   }
      * </pre>
      */
     public function test3Function1()

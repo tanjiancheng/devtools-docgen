@@ -57,7 +57,7 @@ class Outer
              */
             foreach ($apis as $api) {
                 $doc .= sprintf('## %s\n\n', $api->getTitle());
-                $doc .= sprintf('* 请求URL: \n\n%s\n', $api->getExampleRequest());
+                $doc .= sprintf('* 请求地址: \n\n```\n%s```\n', $api->getExampleRequest());
                 $doc .= sprintf('* 请求方法: \n\n%s\n', $api->getMethod());
                 $doc .= sprintf('* 前置说明: \n\n%s\n', $api->getRemarkBeforeMd());
 
@@ -65,9 +65,9 @@ class Outer
                 $doc .= sprintf('* 请求参数: \n\n');
                 if (!empty($api->getParams())) {
                     $doc .= sprintf('|参数名|是否必选|参数类型|说明|\n');
-                    $doc .= sprintf('|:---:|---|---|---|\n');
+                    $doc .= sprintf('|:---|---|---|---|\n');
                     foreach ($api->getParams() as $param) {
-                        $doc .= sprintf('|%s|%s|%s|%s|\n', $param['name'], $param['required'], $param['param_type'], $param['desc']);
+                        $doc .= sprintf('|%s|%s|%s|%s|\n', $param['name'], $param['required'] ? '是': '否', $param['param_type'], $param['desc']);
                     }
 
                     $doc .= '\n';
@@ -77,7 +77,7 @@ class Outer
                 $doc .= sprintf('* 响应数据	: \n\n');
                 if (!empty($api->getResult())) {
                     $doc .= sprintf('|字段|说明|\n');
-                    $doc .= sprintf('|:---:|---|\n');
+                    $doc .= sprintf('|:---|---|\n');
                     foreach ($api->getResult() as $resultKey => $resultValue) {
                         $doc .= sprintf('|%s|%s|\n', $resultKey, $resultValue);
                     }
