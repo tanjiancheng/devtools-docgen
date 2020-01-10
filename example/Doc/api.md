@@ -7,6 +7,8 @@
   - [test4Function2](##test4Function2)
 - [Test1]
   - [test1Function1](##test1Function1)
+- [Test2]
+  - [匹配玩家](##匹配玩家)
 
 
 ## 发送聊天消息
@@ -24,13 +26,7 @@
   }
 }
 ```
-* 请求方法: 
-
-game/send_chat_msg
-* 前置说明: 
-
-
-
+* 请求方法: game/send_chat_msg
 * 请求参数: 
 
 |参数名|是否必选|参数类型|说明|
@@ -38,7 +34,7 @@ game/send_chat_msg
 |chat_msg|是|string|聊天消息|
 |chat_sn|是|string|消息唯一ID|
 
-* 响应数据	: 
+* 响应数据: 
 
 |字段|说明|
 |:---|---|
@@ -49,16 +45,12 @@ game/send_chat_msg
 |data{}.chat_msg|聊天消息|
 |data{}.chat_sn|消息唯一ID|
 
-* 错误码	: 
+* 错误码: 
 
 |字段|说明|
 |:---:|---|
 |40000|参数缺失|
 |40004|操作失败！未找到进行中的聊天房间|
-
-* 其他说明: 
-
-
 
 * 返回数据示例: 
 
@@ -79,6 +71,8 @@ game/send_chat_msg
 
 ```
 
+
+[========]
 ## test3Function2
 
 * 请求地址: 
@@ -86,9 +80,7 @@ game/send_chat_msg
 ```
 http://<domain>/app/get_config
 ```
-* 请求方法: 
-
-POST
+* 请求方法: POST
 * 前置说明: 
 
 前置说明
@@ -100,13 +92,13 @@ POST
 |id|是|int|商品id|
 |game_zone|是|string|游戏大区|
 
-* 响应数据	: 
+* 响应数据: 
 
 |字段|说明|
 |:---|---|
 |account|账号|
 
-* 错误码	: 
+* 错误码: 
 
 |字段|说明|
 |:---:|---|
@@ -133,6 +125,8 @@ POST
 
 ```
 
+
+[========]
 ## test4Function1
 
 * 请求地址: 
@@ -140,9 +134,7 @@ POST
 ```
 http://<domain>/app/get_config
 ```
-* 请求方法: 
-
-POST
+* 请求方法: POST
 * 前置说明: 
 
 前置说明
@@ -154,13 +146,13 @@ POST
 |id|是|int|商品id|
 |game_zone|是|string|游戏大区|
 
-* 响应数据	: 
+* 响应数据: 
 
 |字段|说明|
 |:---|---|
 |account|账号|
 
-* 错误码	: 
+* 错误码: 
 
 |字段|说明|
 |:---:|---|
@@ -187,6 +179,8 @@ POST
 
 ```
 
+
+[========]
 ## test4Function2
 
 * 请求地址: 
@@ -194,9 +188,7 @@ POST
 ```
 http://<domain>/app/get_config
 ```
-* 请求方法: 
-
-POST
+* 请求方法: POST
 * 前置说明: 
 
 前置说明
@@ -208,13 +200,13 @@ POST
 |id|是|int|商品id|
 |game_zone|是|string|游戏大区|
 
-* 响应数据	: 
+* 响应数据: 
 
 |字段|说明|
 |:---|---|
 |account|账号|
 
-* 错误码	: 
+* 错误码: 
 
 |字段|说明|
 |:---:|---|
@@ -241,6 +233,8 @@ POST
 
 ```
 
+
+[========]
 ## test1Function1
 
 * 请求地址: 
@@ -248,9 +242,7 @@ POST
 ```
 http://<domain>/app/get_config
 ```
-* 请求方法: 
-
-POST
+* 请求方法: POST
 * 前置说明: 
 
 前置说明
@@ -262,13 +254,13 @@ POST
 |id|是|int|商品id|
 |game_zone|是|string|游戏大区|
 
-* 响应数据	: 
+* 响应数据: 
 
 |字段|说明|
 |:---|---|
 |account|账号|
 
-* 错误码	: 
+* 错误码: 
 
 |字段|说明|
 |:---:|---|
@@ -295,3 +287,49 @@ POST
 
 ```
 
+
+[========]
+## 匹配玩家
+
+* 请求地址: 
+
+```
+{
+    "id": "XQPieFsDzettF6HzH8mE682fZMT7336w",
+    "jsonrpc": "2.0",
+    "method": 'game/match_player',
+    'params': []
+}
+```
+* 请求方法: test2Function1
+* 响应数据: 
+
+|字段|说明|
+|:---|---|
+|code|操作码|
+|message|操作说明|
+|data{}|返回数据|
+
+* 错误码: 
+
+|字段|说明|
+|:---:|---|
+|40003|您有一场进行中的聊天房间|
+
+* 返回数据示例: 
+
+```
+{
+    "jsonrpc": "2.0",
+    "result": {
+        "code": 20000,
+        "message": "success",
+        "data": []
+    },
+    "id": "XQPieFsDzettF6HzH8mE682fZMT7336w"
+}
+
+```
+
+
+[========]

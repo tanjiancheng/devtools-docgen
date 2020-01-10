@@ -57,25 +57,32 @@ class Outer
              */
             foreach ($apis as $api) {
                 $doc .= sprintf('## %s\n\n', $api->getTitle());
-                $doc .= sprintf('* 请求地址: \n\n```\n%s```\n', $api->getExampleRequest());
-                $doc .= sprintf('* 请求方法: \n\n%s\n', $api->getMethod());
-                $doc .= sprintf('* 前置说明: \n\n%s\n', $api->getRemarkBeforeMd());
+                if (trim($api->getExampleRequest())) {
+                    $doc .= sprintf('* 请求地址: \n\n```\n%s```\n', $api->getExampleRequest());
+                }
+                if (trim($api->getMethod())) {
+                    $doc .= sprintf('* 请求方法: %s\n', $api->getMethod());
+                }
+                if (trim($api->getRemarkBeforeMd())) {
+                    $doc .= sprintf('* 前置说明: \n\n%s\n', $api->getRemarkBeforeMd());
+                }
+
 
                 //params处理
-                $doc .= sprintf('* 请求参数: \n\n');
                 if (!empty($api->getParams())) {
+                    $doc .= sprintf('* 请求参数: \n\n');
                     $doc .= sprintf('|参数名|是否必选|参数类型|说明|\n');
                     $doc .= sprintf('|:---|---|---|---|\n');
                     foreach ($api->getParams() as $param) {
-                        $doc .= sprintf('|%s|%s|%s|%s|\n', $param['name'], $param['required'] ? '是': '否', $param['param_type'], $param['desc']);
+                        $doc .= sprintf('|%s|%s|%s|%s|\n', $param['name'], $param['required'] ? '是' : '否', $param['param_type'], $param['desc']);
                     }
 
                     $doc .= '\n';
                 }
 
                 //result
-                $doc .= sprintf('* 响应数据	: \n\n');
                 if (!empty($api->getResult())) {
+                    $doc .= sprintf('* 响应数据: \n\n');
                     $doc .= sprintf('|字段|说明|\n');
                     $doc .= sprintf('|:---|---|\n');
                     foreach ($api->getResult() as $resultKey => $resultValue) {
@@ -86,8 +93,8 @@ class Outer
                 }
 
                 //错误码
-                $doc .= sprintf('* 错误码	: \n\n');
                 if (!empty($api->getErrors())) {
+                    $doc .= sprintf('* 错误码: \n\n');
                     $doc .= sprintf('|字段|说明|\n');
                     $doc .= sprintf('|:---:|---|\n');
                     foreach ($api->getErrors() as $errorKey => $errorValue) {
@@ -97,13 +104,21 @@ class Outer
                     $doc .= '\n';
                 }
 
-                $doc .= sprintf('* 其他说明: \n\n%s\n', $api->getRemarkAfterMd());
-                $doc .= sprintf('* 返回数据示例: \n\n');
-                $doc .= sprintf('```\n');
-                $doc .= sprintf('%s\n', $api->getExampleResponse());
-                $doc .= sprintf('```\n\n');
+                if (trim($api->getRemarkAfterMd())) {
+                    $doc .= sprintf('* 其他说明: \n\n%s\n', $api->getRemarkAfterMd());
+                }
+
+                if (trim($api->getExampleResponse())) {
+                    $doc .= sprintf('* 返回数据示例: \n\n');
+                    $doc .= sprintf('```\n');
+                    $doc .= sprintf('%s\n', $api->getExampleResponse());
+                    $doc .= sprintf('```\n\n');
+                }
+
+                $doc .= '\n---\n';
             }
         }
+        $doc = rtrim($doc, '\n---\n');
 
         $content = $nav . '\n\n' . $doc;
         return $content;
