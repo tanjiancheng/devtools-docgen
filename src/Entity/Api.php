@@ -82,8 +82,11 @@ class Api
      * @param array $errors
      * @return Api
      */
-    public function setErrors(array $errors): Api
+    public function setErrors($errors): Api
     {
+        if (!is_array($errors)) {
+            $errors = [];
+        }
         $this->errors = $errors;
         return $this;
     }
