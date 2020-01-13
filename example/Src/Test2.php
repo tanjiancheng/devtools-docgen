@@ -5,7 +5,7 @@ Class Test2
     /**
      * 匹配玩家
      *
-     * <pre>
+     * <yamlDoc>
      * group: Test2
      * method: test2Function1
      * params:
@@ -15,8 +15,8 @@ Class Test2
      *   code: 操作码
      *   message: 操作说明
      *   data{}: 返回数据
-     * remark_before_md: |
-     * remark_after_md: |
+     * remark_before: |
+     * remark_after: |
      * example_request: |
      *  {
      *      "id": "XQPieFsDzettF6HzH8mE682fZMT7336w",
@@ -34,7 +34,7 @@ Class Test2
      *      },
      *      "id": "XQPieFsDzettF6HzH8mE682fZMT7336w"
      *  }
-     * </pre>
+     * </yamlDoc>
      * @param Player $player
      * @throws ResultException
      */

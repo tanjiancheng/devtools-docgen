@@ -3,6 +3,7 @@
 namespace Devtools\Docgen;
 
 use Devtools\Docgen\Entity\Api;
+use Devtools\Docgen\Entity\Overview;
 use Devtools\Docgen\Helper\Str;
 use Symfony\Component\Yaml\Yaml;
 
@@ -18,16 +19,82 @@ class Parser
         $this->scaner = $scaner;
     }
 
-    public function getApis()
+    public function getApis(): array
     {
-        $files = $this->scaner->getMatchFiles();
-        $fileContents = [];
-        foreach ($files as $file) {
-            $content = file_get_contents($file);
-            $fileContents[$file] = $content;
-        }
-        $apis = $this->parseText(array_values($fileContents));
+        $apis = $this->parseToApis($this->getMatchFileContents());
         return $apis;
+    }
+
+    public function getOverview(): Overview
+    {
+        $overview = $this->paseToOverview($this->getMatchFileContents());
+        return $overview;
+    }
+
+    /**
+     * 解析文档并返回文档概况对象
+     *
+     * @param array $fileContents
+     * @return Overview
+     */
+    protected function paseToOverview(array $fileContents)
+    {
+        $apiCommentBegin = false;     //标记api注解是否开始
+        $apiComnentEnd = false;       //标记api注解是否结束
+        $overviewDocBegin = false;    //标记overview接口文档是否开始
+        $overviewDocEnd = false;      //标记overview接口文档是否结束
+        $overviewDoc = "";            //overview接口文档内容
+        $overviewObj = new Overview();
+
+        foreach ($fileContents as $fileContent) {
+            $lines = preg_split("[\r|\n]", $fileContent);
+            foreach ($lines as $line) {
+                $plainText = $this->plainText($line);
+                if ($this->isApiCommentBegin($line)) {
+                    $apiCommentBegin = true;
+                    $apiComnentEnd = false;
+                    $overviewDocBegin = false;
+                    $overviewDocEnd = false;
+                    continue;
+                }
+
+                if ($this->isApiCommentEnd($line)) {
+                    $apiCommentBegin = true;
+                    $apiComnentEnd = true;
+                    $overviewDocBegin = false;
+                    $overviewDocEnd = false;
+                    continue;
+                }
+
+                if ($apiCommentBegin && !$apiComnentEnd) {
+                    if ($this->isYamlApiDocEnd($plainText)) {
+                        $yamlParser = new Yaml();
+                        $apiArray = $yamlParser->parse($overviewDoc);
+                        if (!empty($apiArray['title'])) {
+                            foreach ($apiArray as $apiKey => $apiValue) {
+                                if (property_exists($overviewObj, lcfirst(Str::underscoresToCamelCase($apiKey)))) {
+                                    $setMethodName = 'set' . Str::underscoresToCamelCase($apiKey);
+                                    $overviewObj->$setMethodName($apiValue);
+                                }
+                            }
+                        }
+                        $overviewDocEnd = true;
+                    }
+
+                    if ($overviewDocBegin && !$overviewDocEnd) {
+                        $overviewDoc .= $plainText . "\n";
+                    }
+
+                    if ($this->isYamlApiDocBegin($plainText)) {
+                        $overviewDoc = '';
+                        $overviewDocBegin = true;
+                    }
+                }
+
+
+            }
+        }
+        return $overviewObj;
     }
 
     /**
@@ -36,7 +103,7 @@ class Parser
      * @param array $fileContents
      * @return  Api[]
      */
-    protected function parseText(array $fileContents): array
+    protected function parseToApis(array $fileContents): array
     {
         $apiCommentBegin = false;     //标记api注解是否开始
         $apiComnentEnd = false;       //标记api注解是否结束
@@ -46,6 +113,7 @@ class Parser
         $apiDoc = "";                 //api接口文档内容
         $apiObj = new Api();
         $apis = [];
+        $passAttribute = ['title'];
 
         foreach ($fileContents as $fileContent) {
             $lines = preg_split("[\r|\n]", $fileContent);
@@ -79,11 +147,14 @@ class Parser
                 }
 
                 if ($apiCommentBegin && !$apiComnentEnd) {
-                    if ($this->isApiDocEnd($plainText)) {
+                    if ($this->isYamlApiDocEnd($plainText)) {
                         $yamlParser = new Yaml();
                         $apiArray = $yamlParser->parse($apiDoc);
                         foreach ($apiArray as $apiKey => $apiValue) {
                             if (property_exists($apiObj, lcfirst(Str::underscoresToCamelCase($apiKey)))) {
+                                if (in_array(lcfirst(Str::underscoresToCamelCase($apiKey)), $passAttribute)) { //跳过不需要设置的属性
+                                    continue;
+                                }
                                 $setMethodName = 'set' . Str::underscoresToCamelCase($apiKey);
                                 $apiObj->$setMethodName($apiValue);
                             }
@@ -95,7 +166,7 @@ class Parser
                         $apiDoc .= $plainText . "\n";
                     }
 
-                    if ($this->isApiDocBegin($plainText)) {
+                    if ($this->isYamlApiDocBegin($plainText)) {
                         $apiDoc = '';
                         $apiDocBegin = true;
                         $nameReachEnd = true;
@@ -146,31 +217,50 @@ class Parser
     }
 
     /**
-     * 判断是否遇到了api接口文档的开头标记
+     * 判断是否遇到了yaml格式api接口文档的开头标记
      *
      * @param string $text
      * @return bool
      */
-    private function isApiDocBegin(string $text): bool
+    private function isYamlApiDocBegin(string $text): bool
     {
-        if (strpos($text, "<pre>") !== false) {
+        if (strpos($text, "<yamlDoc>") !== false) {
             return true;
         }
         return false;
     }
 
     /**
-     * 判断是否遇到了api接口文档的结束标记
+     * 判断是否遇到了yaml格式api接口文档的结束标记
      *
      * @param string $text
      * @return bool
      */
-    private function isApiDocEnd(string $text): bool
+    private function isYamlApiDocEnd(string $text): bool
     {
-        if (strpos($text, "</pre>") !== false) {
+        if (strpos($text, "</yamlDoc>") !== false) {
             return true;
         }
         return false;
+    }
+
+    private function isYamlTextBegin(string $text): bool
+    {
+        if (strpos($text, ": |") !== false) {
+            return true;
+        }
+        return false;
+    }
+
+    private function getMatchFileContents(): array
+    {
+        $files = $this->scaner->getMatchFiles();
+        $fileContents = [];
+        foreach ($files as $file) {
+            $content = file_get_contents($file);
+            $fileContents[$file] = $content;
+        }
+        return array_values($fileContents);
     }
 
 }

@@ -5,7 +5,7 @@ Class Test4
     /**
      * test4Function1
      *
-     * <pre>
+     * <yamlDoc>
      * group: Test4
      * uri: /app/get_config
      * method: POST
@@ -23,9 +23,9 @@ Class Test4
      *   -20002: 系统错误
      * result:
      *   account: 账号
-     * remark_before_md: |
+     * remark_before: |
      *   前置说明
-     * remark_after_md: |
+     * remark_after: |
      *   后置说明
      * example_request: |
      *   http://<domain>/app/get_config
@@ -40,7 +40,7 @@ Class Test4
      *           "request_id": "0fc71fd42706dc7717e7e053617e4f1ac9fbf3c0"
      *       }
      *   }
-     * </pre>
+     * </yamlDoc>
      */
     public function test4Function1()
     {
@@ -49,7 +49,7 @@ Class Test4
     /**
      * test4Function2
      *
-     * <pre>
+     * <yamlDoc>
      * group: Test4
      * uri: /app/get_config
      * method: POST
@@ -67,9 +67,9 @@ Class Test4
      *   -20002: 系统错误
      * result:
      *   account: 账号
-     * remark_before_md: |
+     * remark_before: |
      *   前置说明
-     * remark_after_md: |
+     * remark_after: |
      *   后置说明
      * example_request: |
      *   http://<domain>/app/get_config
@@ -84,7 +84,7 @@ Class Test4
      *           "request_id": "0fc71fd42706dc7717e7e053617e4f1ac9fbf3c0"
      *       }
      *   }
-     * </pre>
+     * </yamlDoc>
      */
     public function test4Function2()
     {

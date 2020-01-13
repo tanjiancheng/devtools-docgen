@@ -1,3 +1,15 @@
+# 文档标题
+
+采用websocket协议发送
+
+全局错误码:
+
+  -1000: 协议错误
+
+  -1002: 请求参数缺失
+
+---
+
 - [send]
   - [发送聊天消息](##发送聊天消息)
 - [Test3]
@@ -5,10 +17,9 @@
 - [Test4]
   - [test4Function1](##test4Function1)
   - [test4Function2](##test4Function2)
-- [Test1]
-  - [test1Function1](##test1Function1)
 - [Test2]
   - [匹配玩家](##匹配玩家)
+- [test1Function1](##test1Function1)
 
 
 ## 发送聊天消息
@@ -72,7 +83,7 @@
 ```
 
 
-[========]
+---
 ## test3Function2
 
 * 请求地址: 
@@ -126,7 +137,7 @@ http://<domain>/app/get_config
 ```
 
 
-[========]
+---
 ## test4Function1
 
 * 请求地址: 
@@ -180,7 +191,7 @@ http://<domain>/app/get_config
 ```
 
 
-[========]
+---
 ## test4Function2
 
 * 请求地址: 
@@ -234,7 +245,7 @@ http://<domain>/app/get_config
 ```
 
 
-[========]
+---
 ## test1Function1
 
 * 请求地址: 
@@ -288,7 +299,7 @@ http://<domain>/app/get_config
 ```
 
 
-[========]
+---
 ## 匹配玩家
 
 * 请求地址: 
@@ -330,6 +341,3 @@ http://<domain>/app/get_config
 }
 
 ```
-
-
-[========]

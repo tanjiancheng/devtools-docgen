@@ -3,13 +3,22 @@
 namespace Devtools\Docgen;
 
 use Devtools\Docgen\Entity\Api;
+use Devtools\Docgen\Entity\Overview;
 
 class Outer
 {
+    /**
+     * @var Overview
+     */
+    private $overview;
+    /**
+     * @var Api
+     */
     private $apis;
 
-    public function __construct(array $apis)
+    public function __construct(array $apis, $overview)
     {
+        $this->overview = $overview;
         $this->apis = $apis;
     }
 
@@ -37,9 +46,23 @@ class Outer
             $divideToGroups[$api->getGroup()][] = $api;
         }
 
+        //文档概况
+        $overview = '';
+        if ($this->overview->getTitle()) {
+            $overview .= sprintf('# %s\n', $this->overview->getTitle());
+            $overview .= sprintf('%s\n', $this->overview->getDescription());
+            $overview .= '---';
+        }
+        if (strlen($overview)) {
+            $overview .= '\n\n';
+        }
+
         //导航头
         $nav = '';
         foreach ($divideToGroups as $groupName => $apis) {
+            if (empty($groupName)) {
+                continue;
+            }
             $nav .= sprintf('- [%s]\n', $groupName);
             /**
              * @var $api Api
@@ -48,6 +71,21 @@ class Outer
                 $nav .= sprintf('  - [%s](##%s)\n', $api->getTitle(), $api->getTitle());
             }
         }
+        //group为空的是一级目录
+        foreach ($divideToGroups as $groupName => $apis) {
+            if (empty($groupName)) {
+                /**
+                 * @var $api Api
+                 */
+                foreach ($apis as $api) {
+                    $nav .= sprintf('- [%s](##%s)\n', $api->getTitle(), $api->getTitle());
+                }
+            }
+        }
+        if (strlen($nav)) {
+            $nav .= '\n\n';
+        }
+
 
         //文档内容
         $doc = '';
@@ -63,8 +101,8 @@ class Outer
                 if (trim($api->getMethod())) {
                     $doc .= sprintf('* 请求方法: %s\n', $api->getMethod());
                 }
-                if (trim($api->getRemarkBeforeMd())) {
-                    $doc .= sprintf('* 前置说明: \n\n%s\n', $api->getRemarkBeforeMd());
+                if (trim($api->getRemarkBefore())) {
+                    $doc .= sprintf('* 前置说明: \n\n%s\n', $api->getRemarkBefore());
                 }
 
 
@@ -104,8 +142,8 @@ class Outer
                     $doc .= '\n';
                 }
 
-                if (trim($api->getRemarkAfterMd())) {
-                    $doc .= sprintf('* 其他说明: \n\n%s\n', $api->getRemarkAfterMd());
+                if (trim($api->getRemarkAfter())) {
+                    $doc .= sprintf('* 其他说明: \n\n%s\n', $api->getRemarkAfter());
                 }
 
                 if (trim($api->getExampleResponse())) {
@@ -120,7 +158,7 @@ class Outer
         }
         $doc = rtrim($doc, '\n---\n');
 
-        $content = $nav . '\n\n' . $doc;
+        $content = $overview . $nav . $doc;
         return $content;
     }
 }

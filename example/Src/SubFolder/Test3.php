@@ -1,11 +1,21 @@
 <?php
 
+/**
+ * <yamlDoc>
+ * title: 文档标题
+ * description: |
+ *  采用websocket协议发送
+ *  全局错误码:
+ *    -1000: 协议错误
+ *    -1002: 请求参数缺失
+ * </yamlDoc>
+ */
 Class Test3
 {
     /**
      * 发送聊天消息
      *
-     * <pre>
+     * <yamlDoc>
      * group: send
      * method: game/send_chat_msg
      * params:
@@ -27,8 +37,8 @@ Class Test3
      *   data{}.send_player_id: 发送消息玩家ID
      *   data{}.chat_msg: 聊天消息
      *   data{}.chat_sn: 消息唯一ID
-     * remark_before_md: |
-     * remark_after_md: |
+     * remark_before: |
+     * remark_after: |
      * example_request: |
      *   {
      *      "id": "yHs6ndAXiyi6spTSKPRXX26dSeTRa4xx",
@@ -53,7 +63,7 @@ Class Test3
      *     },
      *     "id": "29ad53a591c26c8a0e698208118b6ea6"
      *   }
-     * </pre>
+     * </yamlDoc>
      */
     public function test3Function1()
     {
@@ -62,7 +72,7 @@ Class Test3
     /**
      * test3Function2
      *
-     * <pre>
+     * <yamlDoc>
      * group: Test3
      * uri: /app/get_config
      * method: POST
@@ -80,9 +90,9 @@ Class Test3
      *   -20002: 系统错误
      * result:
      *   account: 账号
-     * remark_before_md: |
+     * remark_before: |
      *   前置说明
-     * remark_after_md: |
+     * remark_after: |
      *   后置说明
      * example_request: |
      *   http://<domain>/app/get_config
@@ -97,7 +107,7 @@ Class Test3
      *           "request_id": "0fc71fd42706dc7717e7e053617e4f1ac9fbf3c0"
      *       }
      *   }
-     * </pre>
+     * </yamlDoc>
      */
     public function test3Function2()
     {

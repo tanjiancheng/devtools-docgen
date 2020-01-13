@@ -1,7 +1,12 @@
 # api文档生成工具
 
+### Install
+```
+composer require devtools/docgen
+```
+
 ### Usage
-```$xslt
+```php
 <?php
 
 use Devtools\Docgen\Outer;
@@ -18,15 +23,15 @@ $scaner->setSuffixs([
     '.php'
 ]);
 $parser = new Parser($scaner);
-$apis = $parser->getApis();
-$outer = new Outer($apis);
+$overview = $parser->getOverview(); //获取文档总概况
+$apis = $parser->getApis();         //获取接口对象数组
 
-//生成markdown格式文档
+$outer = new Outer($apis, $overview);
+$docFileName = __DIR__ . '/Doc/api.md';
 $ret = $outer->toMarkDown([
-    //'stream' => 'php://stdout',           //输出到控制台
-    'stream' => __DIR__. '/Doc/api.md',     //输出到指定文件
+    //'stream' => 'php://stdout',   //输出到控制台
+    'stream' => $docFileName,       //输出到指定文件
 ]);
-
 if ($ret) {
     echo "文档生成成功！请查看" . $docFileName . PHP_EOL;
 }

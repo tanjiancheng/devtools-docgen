@@ -11,8 +11,8 @@ class Api
     protected $params = [];
     protected $errors = [];
     protected $result;
-    protected $remarkBeforeMd;
-    protected $remarkAfterMd;
+    protected $remarkBefore;
+    protected $remarkAfter;
     protected $exampleRequest;
     protected $exampleResponse;
 
@@ -154,36 +154,36 @@ class Api
     /**
      * @return mixed
      */
-    public function getRemarkBeforeMd()
+    public function getRemarkBefore()
     {
-        return $this->remarkBeforeMd;
+        return $this->remarkBefore;
     }
 
     /**
      * @param mixed $remarkBeforeMd
      * @return Api
      */
-    public function setRemarkBeforeMd($remarkBeforeMd)
+    public function setRemarkBefore($remarkBefore)
     {
-        $this->remarkBeforeMd = $remarkBeforeMd;
+        $this->remarkBefore = $remarkBefore;
         return $this;
     }
 
     /**
      * @return mixed
      */
-    public function getRemarkAfterMd()
+    public function getRemarkAfter()
     {
-        return $this->remarkAfterMd;
+        return $this->remarkAfter;
     }
 
     /**
      * @param mixed $remarkAfterMd
      * @return Api
      */
-    public function setRemarkAfterMd($remarkAfterMd)
+    public function setRemarkAfter($remarkAfter)
     {
-        $this->remarkAfterMd = $remarkAfterMd;
+        $this->remarkAfter = $remarkAfter;
         return $this;
     }
 

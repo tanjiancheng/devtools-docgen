@@ -4,8 +4,7 @@ Class Test1 {
     /**
      * test1Function1
      *
-     * <pre>
-     * group: Test1
+     * <yamlDoc>
      * uri: /app/get_config
      * method: POST
      * params:
@@ -22,9 +21,9 @@ Class Test1 {
      *   -20002: 系统错误
      * result:
      *   account: 账号
-     * remark_before_md: |
+     * remark_before: |
      *   前置说明
-     * remark_after_md: |
+     * remark_after: |
      *   后置说明
      * example_request: |
      *   http://<domain>/app/get_config
@@ -39,7 +38,7 @@ Class Test1 {
      *           "request_id": "0fc71fd42706dc7717e7e053617e4f1ac9fbf3c0"
      *       }
      *   }
-     * </pre>
+     * </yamlDoc>
      */
     public function test1Function1(){}
     public function test1Function2(){}
