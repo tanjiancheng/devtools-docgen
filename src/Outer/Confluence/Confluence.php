@@ -30,7 +30,9 @@ class Confluence extends Base
         $doc .= "<ac:parameter ac:name=\"exclude\">目录|接口使用说明</ac:parameter>\n";
         $doc .= "</ac:structured-macro>\n</p>\n";
         $doc .= "<h2>接口使用说明</h2>\n";
-        $doc .= sprintf("%s\n", MarkdownExtra::defaultTransform($this->overview->getDescription()));
+        $overview = sprintf("%s\n", MarkdownExtra::defaultTransform($this->overview->getDescription()));
+        $overview =  preg_replace('|\<code>(.*)\</code>|sU', '<ac:structured-macro ac:name="code"><ac:plain-text-body><![CDATA[${1}]]></ac:plain-text-body></ac:structured-macro>', $overview);
+        $doc .= $overview;
 
         $divideToGroups = [];
         /**
@@ -41,14 +43,14 @@ class Confluence extends Base
         }
 
         foreach ($divideToGroups as $groupName => $apis) {
+            if (!empty($groupName)) {
+                $doc .= "<h2>{$groupName}</h2>\n\n";
+            }
+
             /**
              * @var $api Api
              */
             foreach ($apis as $api) {
-                if (!empty($groupName)) {
-                    $doc .= "<h2>{$groupName}</h2>\n\n";
-                }
-
                 $uri = sprintf("<code>%s</code>", $api->getUri());
                 $method = sprintf('<code>%s</code>', $api->getMethod());
 
