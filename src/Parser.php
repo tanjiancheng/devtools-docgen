@@ -47,7 +47,7 @@ class Parser
         $overviewObj = new Overview();
 
         foreach ($fileContents as $fileContent) {
-            $lines = preg_split("[\r|\n]", $fileContent);
+            $lines = preg_split("/\r\n|\r|\n/", $fileContent);
             foreach ($lines as $line) {
                 $plainText = $this->plainText($line);
                 if ($this->isApiCommentBegin($line)) {
@@ -74,6 +74,9 @@ class Parser
                             foreach ($apiArray as $apiKey => $apiValue) {
                                 if (property_exists($overviewObj, lcfirst(Str::underscoresToCamelCase($apiKey)))) {
                                     $setMethodName = 'set' . Str::underscoresToCamelCase($apiKey);
+                                    if (is_string($apiValue)) {
+                                        $apiValue = rtrim($apiValue);
+                                    }
                                     $overviewObj->$setMethodName($apiValue);
                                 }
                             }
@@ -116,7 +119,7 @@ class Parser
         $passAttribute = ['title'];
 
         foreach ($fileContents as $fileContent) {
-            $lines = preg_split("[\r|\n]", $fileContent);
+            $lines = preg_split("/\r\n|\r|\n/", $fileContent);
             $lines = array_filter($lines);
             foreach ($lines as $line) {
                 $plainText = $this->plainText($line);
@@ -156,6 +159,9 @@ class Parser
                                     continue;
                                 }
                                 $setMethodName = 'set' . Str::underscoresToCamelCase($apiKey);
+                                if (is_string($apiValue)) {
+                                    $apiValue = rtrim($apiValue);
+                                }
                                 $apiObj->$setMethodName($apiValue);
                             }
                         }

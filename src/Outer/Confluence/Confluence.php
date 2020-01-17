@@ -31,7 +31,7 @@ class Confluence extends Base
         $doc .= "</ac:structured-macro>\n</p>\n";
         $doc .= "<h2>接口使用说明</h2>\n";
         $overview = sprintf("%s\n", MarkdownExtra::defaultTransform($this->overview->getDescription()));
-        $overview =  preg_replace('|\<code>(.*)\</code>|sU', '<ac:structured-macro ac:name="code"><ac:plain-text-body><![CDATA[${1}]]></ac:plain-text-body></ac:structured-macro>', $overview);
+        $overview = preg_replace('|\<code>(.*)\</code>|sU', '<ac:structured-macro ac:name="code"><ac:plain-text-body><![CDATA[${1}]]></ac:plain-text-body></ac:structured-macro>', $overview);
         $doc .= $overview;
 
         $divideToGroups = [];
@@ -51,8 +51,16 @@ class Confluence extends Base
              * @var $api Api
              */
             foreach ($apis as $api) {
-                $uri = sprintf("<code>%s</code>", $api->getUri());
-                $method = sprintf('<code>%s</code>', $api->getMethod());
+                $uri = '';
+                if (!empty($api->getUri())) {
+                    $uri = sprintf("<code>%s</code>", $api->getUri());
+                }
+
+                $method = '';
+                if (!empty($api->getMethod())) {
+                    $method = sprintf('<code>%s</code>', $api->getMethod());
+                }
+
 
                 //params处理
                 $params = '';
@@ -71,40 +79,47 @@ class Confluence extends Base
                 }
 
                 //错误码
-                $errors = '<table>';
-                $errors .= "\n<tr>\n<th><code>字段</code></th>\n<th><code>说明</code></th>\n</tr>";
+                $errors = '';
                 if (!empty($api->getErrors())) {
+                    $errors = '<table>';
+                    $errors .= "\n<tr>\n<th><code>字段</code></th>\n<th><code>说明</code></th>\n</tr>";
+
                     foreach ($api->getErrors() as $errorKey => $errorValue) {
                         $errors .= sprintf("\n<tr>\n<td><code>%s</code></td>\n<td><code>%s</code></td>\n</tr>", $errorKey, $errorValue);
                     }
+
+                    $errors .= "\n</table>";
                 }
-                $errors .= "\n</table>";
 
                 //响应数据
-                $result = '<table>';
-                $result .= "\n<tr>\n<th><code>字段</code></th>\n<th><code>说明</code></th>\n</tr>";
-                foreach ($api->getResult() as $resultKey => $resultValue) {
-                    $result .= sprintf("\n<tr>\n<td><code>%s</code></td>\n<td><code>%s</code></td>\n</tr>", $resultKey, $resultValue);
+                $result = '';
+                if (!empty($api->getResult())) {
+                    $result = '<table>';
+                    $result .= "\n<tr>\n<th><code>字段</code></th>\n<th><code>说明</code></th>\n</tr>";
+                    foreach ($api->getResult() as $resultKey => $resultValue) {
+                        $result .= sprintf("\n<tr>\n<td><code>%s</code></td>\n<td><code>%s</code></td>\n</tr>", $resultKey, $resultValue);
+                    }
+                    $result .= "\n</table>";
                 }
-                $result .= "\n</table>";
+
 
                 $remarkBefore = '';
-                if ($api->getRemarkBefore()) {
+                if (!empty($api->getRemarkBefore())) {
                     $remarkBefore = '<pre>' . rtrim(htmlspecialchars($api->getRemarkBefore(), ENT_NOQUOTES)) . '</pre>';
                 }
 
                 $remarkAfter = '';
-                if ($api->getRemarkAfter()) {
+                if (!empty($api->getRemarkAfter())) {
                     $remarkAfter = '<pre>' . rtrim(htmlspecialchars($api->getRemarkAfter(), ENT_NOQUOTES)) . '</pre>';
                 }
 
                 $exampleRequest = '';
-                if ($api->getExampleRequest()) {
+                if (!empty($api->getExampleRequest())) {
                     $exampleRequest = '<ac:structured-macro ac:name="code"><ac:plain-text-body><![CDATA[' . rtrim($api->getExampleRequest()) . ']]></ac:plain-text-body></ac:structured-macro>';
                 }
 
                 $exampleResponse = '';
-                if ($api->getExampleResponse()) {
+                if (!empty($api->getExampleResponse())) {
                     $temp = json_decode($api->getExampleResponse(), true);
                     if (is_array($temp)) {
                         $api->setExampleResponse(json_encode($temp, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT));
@@ -119,15 +134,15 @@ class Confluence extends Base
                 }
 
                 $doc .= "<table>\n";
-                $doc .= "<tr>\n<th style=\"min-width: 56px;\">接口地址</th>\n<td style=\"max-width: 800px; overflow: hidden;\">{$uri}</td>\n</tr>\n";
-                $doc .= "<tr>\n<th style=\"min-width: 56px;\">请求方法</th>\n<td style=\"max-width: 800px; overflow: hidden;\">{$method}</td>\n</tr>\n";
-                $doc .= "<tr>\n<th style=\"min-width: 56px;\">前置说明</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$remarkBefore}\n</td>\n</tr>\n";
-                $doc .= "<tr>\n<th style=\"min-width: 56px;\">请求参数</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$params}\n</td>\n</tr>\n";
-                $doc .= "<tr>\n<th style=\"min-width: 56px;\">错误码</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$errors}\n</td>\n</tr>\n";
-                $doc .= "<tr>\n<th style=\"min-width: 56px;\">响应数据</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$result}\n</td>\n</tr>\n";
-                $doc .= "<tr>\n<th style=\"min-width: 56px;\">其他说明</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$remarkAfter}\n</td>\n</tr>\n";
-                $doc .= "<tr>\n<th style=\"min-width: 56px;\">请求示例</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$exampleRequest}\n</td>\n</tr>\n";
-                $doc .= "<tr>\n<th style=\"min-width: 56px;\">响应示例</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$exampleResponse}\n</td>\n</tr>\n";
+                $uri && $doc .= "<tr>\n<th style=\"min-width: 56px;\">接口地址</th>\n<td style=\"max-width: 800px; overflow: hidden;\">{$uri}</td>\n</tr>\n";
+                $method && $doc .= "<tr>\n<th style=\"min-width: 56px;\">请求方法</th>\n<td style=\"max-width: 800px; overflow: hidden;\">{$method}</td>\n</tr>\n";
+                $remarkBefore && $doc .= "<tr>\n<th style=\"min-width: 56px;\">前置说明</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$remarkBefore}\n</td>\n</tr>\n";
+                $params && $doc .= "<tr>\n<th style=\"min-width: 56px;\">请求参数</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$params}\n</td>\n</tr>\n";
+                $errors && $doc .= "<tr>\n<th style=\"min-width: 56px;\">错误码</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$errors}\n</td>\n</tr>\n";
+                $result && $doc .= "<tr>\n<th style=\"min-width: 56px;\">响应数据</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$result}\n</td>\n</tr>\n";
+                $remarkAfter && $doc .= "<tr>\n<th style=\"min-width: 56px;\">其他说明</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$remarkAfter}\n</td>\n</tr>\n";
+                $exampleRequest && $doc .= "<tr>\n<th style=\"min-width: 56px;\">请求示例</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$exampleRequest}\n</td>\n</tr>\n";
+                $exampleResponse && $doc .= "<tr>\n<th style=\"min-width: 56px;\">响应示例</th>\n<td style=\"max-width: 800px; overflow: hidden;\">\n{$exampleResponse}\n</td>\n</tr>\n";
 
                 $doc .= "</table>\n";
             }
