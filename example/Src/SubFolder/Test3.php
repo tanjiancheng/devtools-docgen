@@ -17,7 +17,8 @@ Class Test3
      *
      * <yamlDoc>
      * group: send
-     * method: game/send_chat_msg
+     * method: websocket
+     * uri: game/send_chat_msg
      * params:
      *   - name: chat_msg
      *     required: true

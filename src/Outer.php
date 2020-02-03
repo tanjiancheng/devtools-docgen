@@ -11,6 +11,7 @@ use Devtools\Docgen\Outer\Base;
  * @package Devtools\Docgen
  * @method toConfluence(array $array)
  * @method toMarkDown(array $array)
+ * @method toHtml(array $array)
  */
 class Outer
 {

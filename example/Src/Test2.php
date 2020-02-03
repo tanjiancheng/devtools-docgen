@@ -7,7 +7,8 @@ Class Test2
      *
      * <yamlDoc>
      * group: Test2
-     * method: test2Function1
+     * method: websocket
+     * uri: test2Function1
      * params:
      * errors:
      *   40003: 您有一场进行中的聊天房间

@@ -1,11 +1,7 @@
 # 文档标题
-
 采用websocket协议发送
-
 全局错误码:
-
   -1000: 协议错误
-
   -1002: 请求参数缺失
 
 ---
@@ -35,9 +31,8 @@
        "chat_msg": "123",
        "chat_sn": "Dhy84razsSeh7WPSiAdW7EsZ76fyt267"
   }
-}
-```
-* 请求方法: game/send_chat_msg
+}```
+* 请求方法: websocket
 * 请求参数: 
 
 |参数名|是否必选|参数类型|说明|
@@ -79,7 +74,6 @@
   },
   "id": "29ad53a591c26c8a0e698208118b6ea6"
 }
-
 ```
 
 
@@ -89,13 +83,11 @@
 * 请求地址: 
 
 ```
-http://<domain>/app/get_config
-```
+http://<domain>/app/get_config```
 * 请求方法: POST
 * 前置说明: 
 
 前置说明
-
 * 请求参数: 
 
 |参数名|是否必选|参数类型|说明|
@@ -119,7 +111,6 @@ http://<domain>/app/get_config
 * 其他说明: 
 
 后置说明
-
 * 返回数据示例: 
 
 ```
@@ -133,7 +124,6 @@ http://<domain>/app/get_config
         "request_id": "0fc71fd42706dc7717e7e053617e4f1ac9fbf3c0"
     }
 }
-
 ```
 
 
@@ -143,13 +133,11 @@ http://<domain>/app/get_config
 * 请求地址: 
 
 ```
-http://<domain>/app/get_config
-```
+http://<domain>/app/get_config```
 * 请求方法: POST
 * 前置说明: 
 
 前置说明
-
 * 请求参数: 
 
 |参数名|是否必选|参数类型|说明|
@@ -173,7 +161,6 @@ http://<domain>/app/get_config
 * 其他说明: 
 
 后置说明
-
 * 返回数据示例: 
 
 ```
@@ -187,7 +174,6 @@ http://<domain>/app/get_config
         "request_id": "0fc71fd42706dc7717e7e053617e4f1ac9fbf3c0"
     }
 }
-
 ```
 
 
@@ -197,13 +183,11 @@ http://<domain>/app/get_config
 * 请求地址: 
 
 ```
-http://<domain>/app/get_config
-```
+http://<domain>/app/get_config```
 * 请求方法: POST
 * 前置说明: 
 
 前置说明
-
 * 请求参数: 
 
 |参数名|是否必选|参数类型|说明|
@@ -227,7 +211,6 @@ http://<domain>/app/get_config
 * 其他说明: 
 
 后置说明
-
 * 返回数据示例: 
 
 ```
@@ -241,7 +224,6 @@ http://<domain>/app/get_config
         "request_id": "0fc71fd42706dc7717e7e053617e4f1ac9fbf3c0"
     }
 }
-
 ```
 
 
@@ -251,13 +233,11 @@ http://<domain>/app/get_config
 * 请求地址: 
 
 ```
-http://<domain>/app/get_config
-```
+http://<domain>/app/get_config```
 * 请求方法: POST
 * 前置说明: 
 
 前置说明
-
 * 请求参数: 
 
 |参数名|是否必选|参数类型|说明|
@@ -281,7 +261,6 @@ http://<domain>/app/get_config
 * 其他说明: 
 
 后置说明
-
 * 返回数据示例: 
 
 ```
@@ -295,7 +274,6 @@ http://<domain>/app/get_config
         "request_id": "0fc71fd42706dc7717e7e053617e4f1ac9fbf3c0"
     }
 }
-
 ```
 
 
@@ -310,9 +288,8 @@ http://<domain>/app/get_config
     "jsonrpc": "2.0",
     "method": 'game/match_player',
     'params': []
-}
-```
-* 请求方法: test2Function1
+}```
+* 请求方法: websocket
 * 响应数据: 
 
 |字段|说明|
@@ -339,5 +316,4 @@ http://<domain>/app/get_config
     },
     "id": "XQPieFsDzettF6HzH8mE682fZMT7336w"
 }
-
 ```

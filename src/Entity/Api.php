@@ -55,9 +55,9 @@ class Api
     /**
      * @return mixed
      */
-    public function getUri()
+    public function getUri(): string
     {
-        return $this->uri;
+        return (string)$this->uri;
     }
 
     /**

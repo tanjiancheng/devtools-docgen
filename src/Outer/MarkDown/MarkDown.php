@@ -18,7 +18,7 @@ class MarkDown extends Base
     {
         $stream = $this->config['stream'] ?? 'php://stdout';
         if ($stream != 'php://stdout' && !is_file($stream)) {
-            mkdir(dirname($stream), 0777, true);
+            @mkdir(dirname($stream), 0777, true);
         }
         $fileHandle = fopen($stream, "w");
         $content = $this->getMarkDownFormatText();
@@ -43,7 +43,7 @@ class MarkDown extends Base
         if ($this->overview->getTitle()) {
             $overview .= sprintf('# %s\n', $this->overview->getTitle());
             $overview .= sprintf('%s\n', $this->overview->getDescription());
-            $overview .= '---';
+            $overview .= '\n---';
         }
         if (strlen($overview)) {
             $overview .= '\n\n';

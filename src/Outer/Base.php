@@ -35,7 +35,7 @@ abstract class Base
     /**
      * @return Api
      */
-    public function getApis(): Api
+    public function getApis(): array
     {
         return $this->apis;
     }
