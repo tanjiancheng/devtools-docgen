@@ -88,7 +88,7 @@ class MarkDown extends Base
             foreach ($apis as $api) {
                 $doc .= sprintf('## %s\n\n', $api->getTitle());
                 if (trim($api->getExampleRequest())) {
-                    $doc .= sprintf('* 请求地址: \n\n```\n%s```\n', $api->getExampleRequest());
+                    $doc .= sprintf('* 请求地址: \n\n```\n%s\n```\n', $api->getExampleRequest());
                 }
                 if (trim($api->getMethod())) {
                     $doc .= sprintf('* 请求方法: %s\n', $api->getMethod());
