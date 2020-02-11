@@ -48,3 +48,6 @@ if (is_file($link)) {
 ```
 
 > 详细例子可以查看example目录
+
+### Screenshot
+![html-snapshoot](https://github.com/tanjiancheng/devtools-docgen/blob/master/src/Outer/Html/html.png)
